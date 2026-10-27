@@ -1,0 +1,115 @@
+{
+  "manifest": {
+    "exp_id": "smoke_mock_b1",
+    "system": "b1",
+    "split": "dev",
+    "n": 50,
+    "sample_seed": 13,
+    "profile": "mock",
+    "llm": {
+      "backend": "mock",
+      "model": "mock"
+    },
+    "retrieval": {
+      "corpus_splits": [
+        "train",
+        "dev",
+        "test"
+      ],
+      "mask_verdict_sentences": true,
+      "sentences_per_passage": 4,
+      "stride": 4,
+      "bm25": {
+        "k1": 0.9,
+        "b": 0.4
+      },
+      "evidence_budget_passages": 5
+    },
+    "evidence_budget": 5,
+    "corpus_fingerprint": "9ec297336ce03d81",
+    "git_commit": "3e0ce5399fab2b2f068ab10ff50c83120596a1bf",
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "run_utc": "2026-10-26T10:41:23.507732+00:00",
+    "wall_clock_s": 0.3,
+    "predictions": "results/predictions/smoke_mock_b1.jsonl"
+  },
+  "metrics": {
+    "n": 50,
+    "macro_f1": 0.1622,
+    "accuracy": 0.48,
+    "invalid_predictions": 0,
+    "per_class": {
+      "true": {
+        "precision": 0.48,
+        "recall": 1.0,
+        "f1": 0.6486,
+        "support": 24
+      },
+      "false": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 20
+      },
+      "mixture": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 6
+      },
+      "unproven": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0
+      }
+    },
+    "confusion_matrix": {
+      "labels": [
+        "true",
+        "false",
+        "mixture",
+        "unproven",
+        "__invalid__"
+      ],
+      "matrix": [
+        [
+          24,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          20,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          6,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  }
+}

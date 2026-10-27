@@ -1,0 +1,30 @@
+{
+  "system": "m2_random",
+  "eval_set": "train_dev",
+  "profile": {
+    "backend": "mock",
+    "model": "mock_scifact"
+  },
+  "retriever": "hybrid_bm25_minilm",
+  "budget": 5,
+  "policy": "scifact_v1",
+  "m2_rounds": 2,
+  "m2_new_per_round": 2,
+  "sc_samples": 5,
+  "sc_temperature": 0.7,
+  "seed": 13,
+  "m2_consolidate": true,
+  "prompt_versions": {
+    "B0_VERSION": "sf-b0-v1",
+    "B1_VERSION": "sf-b1-v1",
+    "B2_DECOMP_VERSION": "sf-b2-decomp-v1",
+    "B2_VERDICT_VERSION": "sf-b2-verdict-v1",
+    "PLANNER_VERSION": "sf-planner-v1",
+    "AUDITOR_VERSION": "sf-auditor-v1",
+    "FACTS_VERSION": "sf-facts-v1",
+    "REQUERY_VERSION": "sf-requery-v1",
+    "CLAIM_REQUERY_VERSION": "sf-claim-requery-v1",
+    "B1_ITER_VERSION": "sf-b1-iter-v1",
+    "AGGREGATE_VERSION": "sf-aggregate-v1"
+  }
+}

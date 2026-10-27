@@ -1,0 +1,38 @@
+# Experiment matrix. Systems/controls frozen at Gate 2 (2026-10-27); budgets frozen at Gate 3 (docs/EXPERIMENT_PROTOCOL.md). status: planned | smoke | done
+model_profile: qwen3_8b_vllm
+seed: 13
+datasets:
+  pubhealth: {eval_split: test, dev_split: dev, labels: 4-way}
+  scifact:   {eval_split: dev, dev_split: train_cv_fold_1, labels: 3-way}
+reference_baselines:          # non-LLM, PUBHEALTH only
+  - {id: majority,               status: done}
+  - {id: claim_id_bins,          status: done, note: leakage probe, never a real system}
+  - {id: claim_only_tfidf_lr,    status: done}
+  - {id: masked_article_tfidf_lr, status: done}
+  - {id: metadata_tfidf_lr,      status: done}
+systems:
+  - {id: B0,   rq: [RQ1], evidence: none,                              status: smoke}
+  - {id: B1,   rq: [RQ1], evidence: "bm25(claim) top-5",               status: smoke}
+  - {id: B1-9, rq: [RQ2], evidence: "top-k matched to M2 max budget",  status: smoke}
+  - {id: B2,   rq: [RQ1], evidence: "sub-questions, 5 total",          status: smoke}
+  - {id: M1,   rq: [RQ1, RQ2], evidence: "obligations (<=6), 5 total", status: smoke}
+  - {id: M2,   rq: [RQ2], evidence: "M1 + <=2 rounds x <=2 new + consolidation (amendment 1)", status: smoke}
+  - {id: M3,   rq: [],    optional: true,                              status: planned}
+comparisons:
+  - {name: "B1 vs B2", rq: RQ1}
+  - {name: "B2 vs M1", rq: RQ1}
+  - {name: "M1 vs M2", rq: RQ2}
+  - {name: "B1-9 vs M2", rq: RQ2, purpose: targeted retrieval vs more text}
+added_controls:              # from docs/LITERATURE_REVIEW.md section 5.4; approved and frozen 2026-10-27
+  - {id: B1-SC,        rq: [RQ1], evidence: "as B1, self-consistency, token-matched", status: smoke}
+  - {id: M1-shared,    rq: [RQ1], evidence: "obligations audited on shared claim-level top-5", status: smoke}
+  - {id: M1-untyped,   rq: [RQ1], evidence: "untyped atomic-fact decomposition", status: smoke}
+  - {id: M1-LLMagg,    rq: [RQ1], evidence: "as M1, LLM aggregation over ledger", status: smoke}
+  - {id: M2-random,    rq: [RQ2], evidence: "re-retrieve for random obligations, M2 caps", status: smoke}
+  - {id: M2-claimiter, rq: [RQ2], evidence: "claim-level iterative retrieval, M2 caps", status: smoke}
+ablations:
+  - {name: deterministic vs LLM aggregation, systems: [M1]}
+  - {name: passage vs whole-article retrieval, dataset: pubhealth}
+  - {name: bm25 vs dense vs hybrid}
+  - {name: with vs without qualifier obligations, systems: [M1]}
+  - {name: M2 with vs without consolidation audit, systems: [M2], note: "amendment 1, 2026-10-27"}
