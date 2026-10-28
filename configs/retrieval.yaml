@@ -1,0 +1,22 @@
+pubhealth:
+  corpus_splits: [train, dev, test]   # pooled article corpus; see docs/EXPERIMENT_PROTOCOL.md
+  mask_verdict_sentences: true
+  sentences_per_passage: 4
+  stride: 4
+  bm25: {k1: 0.9, b: 0.4}
+  evidence_budget_passages: 5         # B1/M1 per-claim budget (draft; frozen at Gate 3)
+
+scifact:
+  retriever: hybrid_bm25_minilm      # BGE-base replaces MiniLM once downloaded
+  unit: abstract                      # title + all sentences; sentence ids preserved for citations
+  corpus: data/raw/scifact/data/corpus.jsonl   # 5,183 abstracts
+  development_set: train_dev          # 200-claim seeded split of claims_train (seed 13); CV folds NOT used
+  bm25: {k1: 0.9, b: 0.4}
+  dense:
+    model: BAAI/bge-base-en-v1.5      # proposal choice; pending download approval
+    fallback_model: sentence-transformers/all-MiniLM-L6-v2   # cached locally; used for the pilot
+    query_prefix: "Represent this sentence for searching relevant passages: "   # BGE only
+    max_seq_length: 512
+  hybrid: {method: rrf, rrf_k: 60, depth: 100}
+  evidence_budget_abstracts: 5        # B1/B2/M1
+  m2_extra: {rounds: 2, new_abstracts_per_round: 2}   # B1-9 therefore gets 9
